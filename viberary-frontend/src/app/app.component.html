@@ -1,0 +1,23 @@
+<header class="header-bar">
+  <nav class="nav-container">
+    <a routerLink="/" class="logo">Viberary</a>
+
+    <div class="user-actions">
+      <ng-container *ngIf="isAuthenticated; else loginBlock">
+        <button (click)="onProfileOrLoginClick()" class="btn btn-link">
+          {{ userName }}
+        </button>
+        <button (click)="logout()" class="btn btn-link logout-btn">
+          Вийти
+        </button>
+      </ng-container>
+      <ng-template #loginBlock>
+        <button (click)="onProfileOrLoginClick()" class="btn btn-link">
+          Увійти
+        </button>
+      </ng-template>
+    </div>
+  </nav>
+</header>
+
+<router-outlet></router-outlet>

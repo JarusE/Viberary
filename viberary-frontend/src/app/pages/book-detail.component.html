@@ -1,0 +1,22 @@
+<div class="book-detail" *ngIf="book; else errorBlock">
+  <h1>{{ book.title }}</h1>
+  <p><strong>Жанр:</strong> {{ book.genre }}</p>
+  <p><strong>Автор:</strong> {{ book.author }}</p>
+  <p><strong>Опис:</strong></p>
+  <p>{{ book.description }}</p>
+  <p>
+    <strong>Демо:</strong>
+    <a [href]="book.demoUrl" target="_blank">Переглянути демо</a>
+  </p>
+  <p [ngClass]="{ 'available': book.available, 'unavailable': !book.available }">
+    Статус: {{ book.available ? 'Доступна' : 'Недоступна' }}
+  </p>
+
+  <button mat-raised-button color="primary" (click)="bookNow()" [disabled]="!book.available">
+    Забронювати
+  </button>
+</div>
+
+<ng-template #errorBlock>
+  <p class="error">{{ errorMessage }}</p>
+</ng-template>

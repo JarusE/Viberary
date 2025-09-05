@@ -1,0 +1,47 @@
+<div class="home-container">
+  <h1>Каталог Книг</h1>
+
+  <div class="filters-and-list">
+    <aside class="filter-panel">
+      <input
+        type="text"
+        placeholder="Пошук за назвою"
+        [(ngModel)]="searchTerm"
+        (input)="applyFilters()"
+        class="search-input"
+      />
+
+      <select [(ngModel)]="sortOption" (change)="applyFilters()" class="sort-select">
+        <option value="">Сортувати за...</option>
+        <option value="title">Назвою (А-Я)</option>
+        <option value="genre">Жанром</option>
+      </select>
+    </aside>
+
+    <div class="book-grid">
+      <div *ngIf="filteredBooks.length === 0" class="empty-message">
+        Нічого не знайдено
+      </div>
+
+      <div *ngFor="let book of filteredBooks" class="book-card" [class.unavailable]="!book.available">
+        <div class="book-header">
+          <h2 class="book-title">{{ book.title }}</h2>
+          <p class="book-genre">Жанр: {{ book.genre }}</p>
+          <p class="book-author">Автор: {{ book.author }}</p>
+        </div>
+
+        <p class="description">{{ book.description | slice: 0:100 }}...</p>
+
+        <p class="status" [ngClass]="{ 'available': book.available, 'not-available': !book.available }">
+          {{ book.available ? 'Доступна' : 'Недоступна' }}
+        </p>
+
+        <div class="button-group">
+          <button mat-raised-button color="accent" (click)="goToDetails(book.id)">
+            Детальніше
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

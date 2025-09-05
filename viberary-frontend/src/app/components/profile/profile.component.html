@@ -1,0 +1,129 @@
+<!-- === Клієнт === -->
+<ng-container *ngIf="!isAdmin">
+  <h2>Мої активні бронювання</h2>
+
+  <div *ngIf="activeBookings.length === 0">
+    У вас немає активних бронювань.
+  </div>
+
+  <mat-card *ngFor="let booking of activeBookings" class="booking-card">
+    <mat-card-title>
+      Книга: {{ booking.bookTitle || ('ID: ' + booking.bookId) }}
+    </mat-card-title>
+    <mat-card-content>
+      <p><strong>Період:</strong> {{ booking.startDate }} – {{ booking.endDate }}</p>
+      <p><strong>Статус:</strong>
+        <span [ngClass]="{
+          'text-success': booking.status === 'ACTIVE',
+          'text-warning': booking.status === 'PENDING'
+        }">{{ booking.status }}</span>
+      </p>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-stroked-button color="primary" (click)="markAsRead(booking.id)">
+        Позначити як прочитано
+      </button>
+      <button mat-stroked-button color="warn" (click)="cancelBooking(booking.id)">
+        Скасувати бронювання
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-divider class="my-4"></mat-divider>
+
+  <h2>Історія бронювань</h2>
+
+  <div *ngIf="historyBookings.length === 0">
+    Історія порожня.
+  </div>
+
+  <mat-card *ngFor="let booking of historyBookings" class="booking-card history">
+    <mat-card-title>
+      Книга: {{ booking.bookTitle || ('ID: ' + booking.bookId) }}
+    </mat-card-title>
+    <mat-card-content>
+      <p><strong>Період:</strong> {{ booking.startDate }} – {{ booking.endDate }}</p>
+      <p><strong>Статус:</strong>
+        <span [ngClass]="{
+          'text-success': booking.status === 'FINISHED',
+          'text-danger': booking.status === 'CANCELLED'
+        }">{{ booking.status }}</span>
+      </p>
+    </mat-card-content>
+  </mat-card>
+</ng-container>
+
+<!-- === Адмін === -->
+<ng-container *ngIf="isAdmin">
+  <h2>Адміністративна панель</h2>
+
+  <div *ngIf="adminUsers.length === 0">
+    Завантаження користувачів...
+  </div>
+
+  <h3>Список користувачів</h3>
+  <input
+    type="text"
+    [(ngModel)]="searchTerm"
+    placeholder="Пошук за ім’ям або email"
+    class="search-input"
+  />
+
+  <table class="admin-table">
+    <thead>
+    <tr>
+      <th (click)="sortUsers('name')">Ім’я</th>
+      <th (click)="sortUsers('email')">Email</th>
+      <th (click)="sortUsers('role')">Роль</th>
+      <th>Дії</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr
+      *ngFor="let user of filteredUsers"
+      [class.selected]="selectedUser?.id === user.id">
+      <td>{{ user.name }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.role }}</td>
+      <td>
+        <button mat-stroked-button class="admin-table-button" (click)="selectUser(user)">
+          Деталі
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="selectedUser">
+    <mat-divider class="my-4"></mat-divider>
+
+    <h3>Бронювання користувача: {{ selectedUser.name }} ({{ selectedUserBookings.length }})</h3>
+
+    <div *ngIf="selectedUserBookings.length === 0">
+      Немає бронювань.
+    </div>
+
+    <mat-card *ngFor="let booking of selectedUserBookings" class="booking-card">
+      <mat-card-title>
+        Книга: {{ booking.bookTitle || ('ID: ' + booking.bookId) }}
+      </mat-card-title>
+      <mat-card-content>
+        <p><strong>Період:</strong> {{ booking.startDate }} – {{ booking.endDate }}</p>
+        <p><strong>Статус:</strong>
+          <span [ngClass]="{
+            'text-success': booking.status === 'FINISHED',
+            'text-danger': booking.status === 'CANCELLED',
+            'text-warning': isCancelable(booking.status)
+          }">{{ booking.status }}</span>
+        </p>
+      </mat-card-content>
+
+      <mat-card-actions *ngIf="isCancelable(booking.status)">
+        <button mat-stroked-button color="warn" (click)="cancelBookingAsAdmin(booking.id)">
+          Скасувати бронювання
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</ng-container>

@@ -1,0 +1,41 @@
+.book-detail {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: #1e1e1e;
+  color: #f6f6f6;
+  border-radius: 1rem;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    margin: 0.5rem 0;
+  }
+
+  .available {
+    color: #4caf50;
+  }
+
+  .unavailable {
+    color: #f44336;
+  }
+
+  a {
+    color: #64b5f6;
+    text-decoration: underline;
+  }
+
+  button {
+    margin-top: 1.5rem;
+  }
+
+  .error {
+    text-align: center;
+    font-size: 1.2rem;
+    color: red;
+  }
+}
