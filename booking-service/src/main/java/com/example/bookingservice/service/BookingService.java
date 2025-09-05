@@ -10,6 +10,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Service class that handles business logic for booking operations such as creating, retrieving,
+ * canceling, and finishing bookings.
+ *
+ * This service interacts with the BookingRepository to manage booking data
+ * and BookServiceClient for book-related information and availability.
+ */
 @Service
 @RequiredArgsConstructor
 public class BookingService {

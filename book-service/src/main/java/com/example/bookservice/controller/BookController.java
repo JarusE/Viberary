@@ -8,6 +8,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * The BookController class is a REST controller responsible for managing CRUD operations
+ * and endpoints related to books within the application. It handles various HTTP requests
+ * for retrieving, creating, updating, and deleting books.
+ *
+ * It interacts with the BookService class to perform these operations.
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/books")

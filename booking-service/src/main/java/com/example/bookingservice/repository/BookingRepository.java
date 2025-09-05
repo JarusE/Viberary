@@ -8,6 +8,13 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Repository interface for managing and accessing {@link Booking} entities from the database.
+ *
+ * This interface extends {@link JpaRepository} to provide CRUD and query capabilities for
+ * {@link Booking}. Additionally, it defines custom query methods for specific booking-related
+ * requirements, such as finding bookings by user ID and identifying conflicts in booking reservations.
+ */
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     List<Booking> findByUserId(Long userId);
